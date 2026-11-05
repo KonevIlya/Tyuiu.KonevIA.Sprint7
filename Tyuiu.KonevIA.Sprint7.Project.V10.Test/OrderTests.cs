@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tyuiu.KonevIA.Sprint7.Project.V10.Lib;
 namespace Tyuiu.KonevIA.Sprint7.Project.V10.Test;
 [TestClass]
@@ -77,5 +77,26 @@ public class OrderTests_KIA
         Assert.ThrowsException<ArgumentException>(()=>service_KIA.Validate(order_KIA,Array.Empty<Order_KIA>()));
         order_KIA.DueDate=DateTime.Today;order_KIA.Address=new string('x',501);
         Assert.ThrowsException<ArgumentException>(()=>service_KIA.Validate(order_KIA,Array.Empty<Order_KIA>()));
+    }
+    [TestMethod]
+    public void ValidationRejectsDuplicateWithSurroundingSpaces()
+    {
+        var service_KIA=new OrderService_KIA();
+        Assert.ThrowsException<ArgumentException>(()=>service_KIA.Validate(Order(" a "),new[]{Order("A")}));
+        Assert.ThrowsException<ArgumentException>(()=>service_KIA.Validate(Order("a"),new[]{Order(" A ")}));
+    }
+    [TestMethod]
+    public void CsvNormalizesOrderNumbersAndRejectsDisguisedDuplicates()
+    {
+        string path_KIA=Path.GetTempFileName();
+        try
+        {
+            var repository_KIA=new CsvRepository_KIA();
+            repository_KIA.Save(path_KIA,new[]{Order(" A ")});
+            Assert.AreEqual("A",repository_KIA.Load(path_KIA).Single().Number);
+            repository_KIA.Save(path_KIA,new[]{Order("A"),Order(" a ")});
+            Assert.ThrowsException<FormatException>(()=>repository_KIA.Load(path_KIA));
+        }
+        finally{File.Delete(path_KIA);}
     }
 }

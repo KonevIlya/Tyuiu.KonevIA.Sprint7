@@ -50,7 +50,7 @@ internal sealed class FormEditOrder_KIA : Form
         var field_KIA=fields_KIA[key];
         bool required_KIA=key is "Number" or "LastName" or "FirstName" or "Product";
         string error_KIA=required_KIA&&string.IsNullOrWhiteSpace(field_KIA.Text)?"Обязательное поле":
-            key=="Number"&&existing_KIA.Any(x=>x.Number!=original_KIA&&string.Equals(x.Number,field_KIA.Text.Trim(),StringComparison.OrdinalIgnoreCase))?"Этот номер заказа уже существует":"";
+            key=="Number"&&existing_KIA.Any(x=>x.Number!=original_KIA&&string.Equals(x.Number?.Trim(),field_KIA.Text.Trim(),StringComparison.OrdinalIgnoreCase))?"Этот номер заказа уже существует":"";
         field_KIA.BackColor=error_KIA.Length>0?Color.FromArgb(255,241,235):Color.White;
         errorProviderFields_KIA.SetError(field_KIA,error_KIA);return error_KIA.Length==0;
     }

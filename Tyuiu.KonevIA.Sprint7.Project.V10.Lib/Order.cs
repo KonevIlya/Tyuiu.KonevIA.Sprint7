@@ -1,4 +1,4 @@
-namespace Tyuiu.KonevIA.Sprint7.Project.V10.Lib;
+﻿namespace Tyuiu.KonevIA.Sprint7.Project.V10.Lib;
 public sealed class Order_KIA
 {
     public string Number {get;set;}="";
@@ -25,7 +25,7 @@ public sealed class OrderService_KIA
     {
         if(string.IsNullOrWhiteSpace(order.Number)||string.IsNullOrWhiteSpace(order.LastName)||string.IsNullOrWhiteSpace(order.FirstName)||string.IsNullOrWhiteSpace(order.Product))
             throw new ArgumentException("Заполните номер заказа, фамилию, имя и название товара.");
-        if(existing.Any(x=>x.Number!=originalNumber&&string.Equals(x.Number,order.Number,StringComparison.OrdinalIgnoreCase)))throw new ArgumentException("Заказ с таким номером уже существует.");
+        if(existing.Any(x=>x.Number!=originalNumber&&string.Equals(x.Number?.Trim(),order.Number.Trim(),StringComparison.OrdinalIgnoreCase)))throw new ArgumentException("Заказ с таким номером уже существует.");
         if(new[]{order.Number,order.LastName,order.FirstName,order.Patronymic,order.Account,order.Address,order.Phone,order.Product}.Any(x=>x==null||x.Length>500))throw new ArgumentException("Текстовые поля не должны превышать 500 символов.");
         if(order.DueDate.Date<new DateTime(1753,1,1)||order.DueDate.Date>new DateTime(9998,12,31))throw new ArgumentException("Дата исполнения должна быть в диапазоне 01.01.1753–31.12.9998.");
         if(order.Price>1000000000000m||order.Quantity>1000000)throw new ArgumentException("Максимальная цена — 1 трлн ₽, количество — 1 000 000.");

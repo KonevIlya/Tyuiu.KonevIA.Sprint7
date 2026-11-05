@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 namespace Tyuiu.KonevIA.Sprint7.Project.V10.Lib;
 public sealed class CsvRepository_KIA
@@ -34,7 +34,7 @@ public sealed class CsvRepository_KIA
             try
             {
                 if(r.Count!=12)throw new FormatException("Ожидается 12 столбцов.");
-                var o=new Order_KIA {Number=r[0],LastName=r[1],FirstName=r[2],Patronymic=r[3],Account=r[4],Address=r[5],Phone=r[6],DueDate=DateTime.ParseExact(r[7],"yyyy-MM-dd",CultureInfo.InvariantCulture),Product=r[8],Price=decimal.Parse(r[9].Replace(',','.'),NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign,CultureInfo.InvariantCulture),Quantity=int.Parse(r[10],CultureInfo.InvariantCulture),Status=r[11]};
+                var o=new Order_KIA {Number=r[0].Trim(),LastName=r[1],FirstName=r[2],Patronymic=r[3],Account=r[4],Address=r[5],Phone=r[6],DueDate=DateTime.ParseExact(r[7],"yyyy-MM-dd",CultureInfo.InvariantCulture),Product=r[8],Price=decimal.Parse(r[9].Replace(',','.'),NumberStyles.AllowDecimalPoint|NumberStyles.AllowLeadingSign,CultureInfo.InvariantCulture),Quantity=int.Parse(r[10],CultureInfo.InvariantCulture),Status=r[11]};
                 service.Validate(o,result);result.Add(o);
             }
             catch(Exception ex) when(ex is FormatException||ex is ArgumentException||ex is OverflowException){throw new FormatException($"Запись {i+1}: {ex.Message}",ex);}

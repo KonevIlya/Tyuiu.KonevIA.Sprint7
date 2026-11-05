@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="FormEditOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormHelp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OrderChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
